@@ -1,0 +1,2334 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title id="pageTitle">KIỂM TRA THỬ VẬT LÝ - ĐỀ SỐ 3 (50 PHÚT)</title>
+  <!-- MathJax hiển thị công thức Vật lý -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --primary-light: #dbeafe;
+      --accent: #0284c7;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding-bottom: 90px;
+    }
+
+    /* =========================================================
+       1. MÀN HÌNH BẮT BUỘC NHẬP HỌ VÀ TÊN TRƯỚC KHI VÀO BÀI THI
+       ========================================================= */
+    .start-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: linear-gradient(145deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .start-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+      animation: fadeUp 0.3s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .start-badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .start-card h1 {
+      font-size: 1.45rem;
+      color: var(--text);
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .start-meta {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 14px 0 18px;
+      font-size: 0.9rem;
+      color: var(--muted);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .start-meta div strong { color: var(--text); }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.92rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .form-group label span { color: var(--danger); }
+
+    .form-input {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s;
+      font-weight: 600;
+    }
+    .form-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+    }
+    .form-input.input-error {
+      border-color: var(--danger);
+      background: #fef2f2;
+    }
+
+    .error-msg {
+      display: none;
+      color: var(--danger);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .btn-start-exam {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #1d4ed8, #2563eb);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 6px 18px rgba(29, 78, 216, 0.3);
+      transition: transform 0.15s;
+    }
+    .btn-start-exam:active { transform: scale(0.98); }
+
+    /* =========================================================
+       2. THANH HEADER CỐ ĐỊNH
+       ========================================================= */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: #fff;
+      padding: 10px 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand-box h2 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #38bdf8;
+      text-transform: uppercase;
+    }
+    .student-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      color: #e2e8f0;
+      margin-top: 2px;
+    }
+    .student-pill strong {
+      color: #fde047;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timer-badge {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #fde047;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .timer-badge.urgent {
+      background: rgba(220, 38, 38, 0.45);
+      border-color: #f87171;
+      color: #fecaca;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.04); }
+    }
+
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+    .btn-submit { background: #22c55e; color: #fff; }
+    .btn-submit:hover { background: #16a34a; }
+    .btn-outline-light {
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    /* =========================================================
+       3. BỐ CỤC CHÍNH
+       ========================================================= */
+    .main-container {
+      max-width: 1400px;
+      margin: 16px auto;
+      padding: 0 12px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .main-container {
+        grid-template-columns: 1fr 430px;
+        padding: 0 20px;
+      }
+      body { padding-bottom: 40px; }
+    }
+
+    /* =========================================================
+       4. KHU VỰC KẾT QUẢ, VIDEO GIẢI & BẢNG ĐÁP ÁN SAU NỘP BÀI
+       ========================================================= */
+    #resultHub {
+      display: none;
+      background: #ffffff;
+      border: 2px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 25px rgba(29, 78, 216, 0.12);
+    }
+
+    .result-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .score-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+    @media (min-width: 640px) {
+      .score-cards { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .score-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+    }
+    .score-item .s-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .score-item .s-val {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 2px 0;
+    }
+    .score-item.total-highlight {
+      background: var(--primary-light);
+      border-color: #93c5fd;
+    }
+    .score-item.total-highlight .s-val {
+      color: var(--danger);
+      font-size: 1.75rem;
+    }
+
+    /* KHUNG VIDEO GIẢI CHI TIẾT SAU KHI NỘP BÀI */
+    .video-solution-card {
+      margin-top: 16px;
+      background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+      border: 2px solid #fda4af;
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 4px 15px rgba(225, 29, 72, 0.08);
+    }
+    .video-header-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .video-badge-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .video-icon-pulse {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: #e11d48;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(225, 29, 72, 0.3);
+    }
+    .video-info-text h4 {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #881337;
+    }
+    .video-info-text p {
+      font-size: 0.85rem;
+      color: #9f1239;
+      margin-top: 2px;
+    }
+    .video-action-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .btn-watch-video {
+      background: linear-gradient(135deg, #e11d48, #be123c);
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.28);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .btn-watch-video:hover {
+      background: #9f1239;
+    }
+    .btn-toggle-embed {
+      background: #ffffff;
+      color: #be123c;
+      border: 1.5px solid #fb7185;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .extra-video-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed #fda4af;
+    }
+    .extra-video-pill {
+      background: #ffffff;
+      color: #9f1239;
+      border: 1px solid #fda4af;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .extra-video-pill:hover {
+      background: #ffe4e6;
+    }
+    .video-embed-wrapper {
+      display: none;
+      margin-top: 14px;
+    }
+    .video-mode-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid #fda4af;
+      border-bottom: none;
+      padding: 8px 12px;
+      border-radius: 12px 12px 0 0;
+      font-size: 0.82rem;
+      color: #881337;
+    }
+    .video-mode-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .mode-pill {
+      border: 1px solid #fda4af;
+      background: #fff1f2;
+      color: #9f1239;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mode-pill.active {
+      background: #e11d48;
+      color: #fff;
+      border-color: #e11d48;
+    }
+    .video-embed-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #0f172a;
+      border-radius: 0 0 12px 12px;
+      overflow: hidden;
+      border: 2px solid #fda4af;
+    }
+    .video-embed-container iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .q-video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #ffe4e6;
+      color: #be123c;
+      border: 1px solid #fda4af;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 8px;
+    }
+    .q-video-link:hover {
+      background: #fecdd3;
+    }
+
+    /* BẢNG ĐÁP ÁN NHANH SAU KHI LÀM XONG */
+    .quick-key-box {
+      margin-top: 16px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .quick-key-title {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .key-p1-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    @media (min-width: 640px) {
+      .key-p1-grid { grid-template-columns: repeat(9, 1fr); }
+    }
+    .key-cell {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 5px 4px;
+      text-align: center;
+      font-size: 0.8rem;
+      background: #fff;
+      cursor: pointer;
+    }
+    .key-cell.k-ok { background: var(--success-bg); border-color: var(--success); color: #14532d; }
+    .key-cell.k-err { background: var(--danger-bg); border-color: var(--danger); color: #7f1d1d; }
+
+    .solution-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+    .filter-btn {
+      padding: 8px 14px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    /* =========================================================
+       5. THẺ CÂU HỎI & LỜI GIẢI CHI TIẾT
+       ========================================================= */
+    .section-banner {
+      background: var(--primary-dark);
+      color: #fff;
+      padding: 13px 16px;
+      border-radius: 12px;
+      margin: 18px 0 12px;
+    }
+    .section-banner h3 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+    .section-banner p {
+      font-size: 0.83rem;
+      color: #bfdbfe;
+      margin-top: 3px;
+    }
+
+    .q-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      scroll-margin-top: 80px;
+    }
+    .q-card.card-correct { border-left: 6px solid var(--success); }
+    .q-card.card-wrong { border-left: 6px solid var(--danger); }
+
+    .q-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    .q-num {
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1rem;
+    }
+    .q-status {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px;
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .q-content {
+      font-size: 1rem;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .q-figure {
+      margin: 12px 0;
+      padding: 10px;
+      background: #f8fafc;
+      border: 1px dashed #94a3b8;
+      border-radius: 10px;
+      text-align: center;
+      overflow-x: auto;
+    }
+    .q-figure svg, .q-figure img {
+      width: 100%;
+      max-width: 420px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .q-figure.wide-svg svg, .q-figure.wide-svg img {
+      max-width: 560px;
+    }
+    .q-figure-caption {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 6px;
+      font-style: italic;
+    }
+
+    .p1-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    @media (min-width: 600px) {
+      .p1-options { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .p1-opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      background: #fff;
+      transition: all 0.15s;
+      min-height: 50px;
+    }
+    .p1-opt:active { transform: scale(0.99); }
+    .p1-opt.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+    .p1-opt.ans-correct {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #14532d;
+      font-weight: 700;
+    }
+    .p1-opt.ans-wrong {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #7f1d1d;
+    }
+
+    .opt-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid #64748b;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      background: #fff;
+    }
+    .p1-opt.selected .opt-circle {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .p1-opt.ans-correct .opt-circle {
+      background: var(--success);
+      color: #fff;
+      border-color: var(--success);
+    }
+    .p1-opt.ans-wrong .opt-circle {
+      background: var(--danger);
+      color: #fff;
+      border-color: var(--danger);
+    }
+
+    .p2-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .p2-item {
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    @media (min-width: 600px) {
+      .p2-item {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+    .p2-item.sub-correct { background: #f0fdf4; border-color: #86efac; }
+    .p2-item.sub-wrong { background: #fef2f2; border-color: #fca5a5; }
+
+    .p2-text {
+      font-size: 0.95rem;
+      flex: 1;
+    }
+    .p2-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      min-width: 170px;
+      flex-shrink: 0;
+    }
+    .tf-btn {
+      padding: 9px 12px;
+      border-radius: 10px;
+      border: 1.5px solid #94a3b8;
+      background: #fff;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .tf-btn.active-true {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .tf-btn.active-false {
+      background: #0f172a;
+      color: #fff;
+      border-color: #0f172a;
+    }
+    .tf-btn.correct-choice {
+      box-shadow: 0 0 0 2px var(--success);
+      border-color: var(--success);
+    }
+
+    .p3-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .p3-input {
+      width: 160px;
+      padding: 10px 14px;
+      font-size: 16px;
+      font-weight: 800;
+      border: 2px solid #64748b;
+      border-radius: 10px;
+      letter-spacing: 1px;
+    }
+    .p3-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .sol-box {
+      display: none;
+      margin-top: 14px;
+      padding: 14px 16px;
+      background: #eff6ff;
+      border-left: 5px solid var(--primary);
+      border-radius: 10px;
+      font-size: 0.94rem;
+    }
+    .sol-title {
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* =========================================================
+       6. PHIẾU TRẢ LỜI OMR
+       ========================================================= */
+    .omr-panel {
+      background: #fff;
+      border: 2px solid #1e293b;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (min-width: 1024px) {
+      .omr-panel {
+        position: sticky;
+        top: 72px;
+        max-height: calc(100vh - 88px);
+        overflow-y: auto;
+      }
+      .mobile-bottom-bar, .drawer-backdrop, .drawer-close-bar {
+        display: none !important;
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .omr-panel {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        max-height: 82vh;
+        overflow-y: auto;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(105%);
+        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        padding-bottom: 28px;
+      }
+      .omr-panel.open {
+        transform: translateY(0);
+      }
+    }
+
+    .drawer-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      z-index: 190;
+    }
+    .drawer-backdrop.open { display: block; }
+
+    .drawer-close-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 120;
+      background: #ffffff;
+      border-top: 1.5px solid var(--border);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-open-omr {
+      flex: 1;
+      background: #eff6ff;
+      color: var(--primary-dark);
+      border: 1.5px solid #93c5fd;
+      padding: 11px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .omr-sheet {
+      position: relative;
+      border: 1.5px solid #334155;
+      padding: 12px 10px;
+      background: #fff;
+      font-family: 'Times New Roman', Times, serif;
+    }
+    .omr-corner {
+      width: 9px;
+      height: 9px;
+      background: #000;
+      position: absolute;
+    }
+    .omr-corner.tl { top: 4px; left: 4px; }
+    .omr-corner.tr { top: 4px; right: 4px; }
+    .omr-corner.bl { bottom: 4px; left: 4px; }
+    .omr-corner.br { bottom: 4px; right: 4px; }
+
+    .omr-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+    .omr-info {
+      font-size: 0.8rem;
+      border-bottom: 1px solid #94a3b8;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+    .omr-sec-label {
+      font-weight: 700;
+      font-size: 0.82rem;
+      margin: 6px 0 4px;
+      font-family: sans-serif;
+    }
+
+    .omr-p1-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      border: 1px solid #475569;
+      padding: 6px;
+      background: #fafafa;
+    }
+    .omr-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      padding: 2px 3px;
+      font-family: sans-serif;
+    }
+    .omr-qnum {
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .omr-bubbles { display: flex; gap: 5px; }
+    .bubble {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid #334155;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-family: sans-serif;
+      cursor: pointer;
+      background: #fff;
+      font-weight: 700;
+    }
+    .bubble.filled { background: #0f172a; color: #fff; border-color: #0f172a; }
+    .bubble.omr-correct { background: var(--success) !important; border-color: var(--success) !important; color: #fff !important; }
+    .bubble.omr-wrong { background: var(--danger) !important; border-color: var(--danger) !important; color: #fff !important; }
+    .bubble.omr-missed { border: 2px solid var(--success) !important; color: var(--success) !important; }
+
+    .omr-p2-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      border: 1px solid #475569;
+      padding: 6px;
+      background: #fafafa;
+    }
+    .omr-p2-card {
+      border: 1px solid #94a3b8;
+      padding: 4px 6px;
+      background: #fff;
+    }
+    .omr-p3-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      border: 1px solid #475569;
+      padding: 6px;
+      background: #fafafa;
+    }
+    .omr-p3-card {
+      border: 1px solid #94a3b8;
+      padding: 4px;
+      background: #fff;
+      text-align: center;
+      font-family: sans-serif;
+      font-size: 0.75rem;
+    }
+    .omr-p3-boxes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .omr-p3-char {
+      height: 20px;
+      border: 1px solid #334155;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===============================================================
+     MÀN HÌNH BẮT BUỘC NHẬP HỌ VÀ TÊN TRƯỚC KHI VÀO LÀM BÀI
+     =============================================================== -->
+<div class="start-overlay" id="startOverlay">
+  <div class="start-card">
+    <span class="start-badge" id="startBadge">Vật Lý 12 • Giữa Học Kì 1</span>
+    <h1 id="startExamTitle">KIỂM TRA THỬ VẬT LÝ - ĐỀ SỐ 3</h1>
+    <p style="color: var(--muted); font-size: 0.92rem;">
+      Vui lòng điền đầy đủ <b>Họ và tên</b> trước khi bắt đầu tính giờ làm bài.
+    </p>
+
+    <div class="start-meta">
+      <div>⏱️ Thời gian: <strong id="metaDuration">50 phút</strong></div>
+      <div>📝 Tổng số câu: <strong id="metaTotalQ">28 câu</strong></div>
+      <div>📌 Phần I: <strong>18 câu (4,5đ)</strong></div>
+      <div>📌 Phần II & III: <strong>10 câu (5,5đ)</strong></div>
+    </div>
+
+    <form id="startForm" onsubmit="handleStartExam(event)">
+      <div class="form-group">
+        <label for="studentNameInput">Họ và tên thí sinh <span>* (Bắt buộc)</span></label>
+        <input
+          type="text"
+          id="studentNameInput"
+          class="form-input"
+          placeholder="Nhập họ và tên của bạn..."
+          autocomplete="name"
+        />
+        <div class="error-msg" id="nameErrorMsg">⚠️ Bạn bắt buộc phải nhập Họ và tên mới được vào làm bài!</div>
+      </div>
+
+      <div class="form-group">
+        <label for="studentClassInput">Lớp / Số báo danh (Tùy chọn)</label>
+        <input
+          type="text"
+          id="studentClassInput"
+          class="form-input"
+          placeholder="VD: 12A1 - SBD: 012345"
+        />
+      </div>
+
+      <button type="submit" class="btn-start-exam" id="btnStartExam">
+        🚀 BẮT ĐẦU LÀM BÀI (50 PHÚT)
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- ===============================================================
+     THANH HEADER CỐ ĐỊNH
+     =============================================================== -->
+<header>
+  <div class="header-inner">
+    <div class="brand-box">
+      <h2 id="headerExamTitle">KIỂM TRA THỬ VẬT LÝ - ĐỀ 3</h2>
+      <div class="student-pill">
+        👤 Thí sinh: <strong id="headerStudentName">Chưa nhập tên</strong>
+        <span id="headerStudentClass"></span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div id="timerBox" class="timer-badge">
+        <span>⏱️</span>
+        <span id="timerDisplay">50:00</span>
+      </div>
+      <button class="btn btn-submit" id="topSubmitBtn" onclick="submitExam()">✅ Nộp bài</button>
+      <button class="btn btn-outline-light" onclick="resetExam()">🔄 Làm lại</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===============================================================
+     KHUNG NỘI DUNG ĐỀ THI & PHIẾU TRẢ LỜI
+     =============================================================== -->
+<div class="main-container">
+  <div>
+    <!-- KHU VỰC HIỂN THỊ ĐIỂM, VIDEO GIẢI & ĐÁP ÁN CHI TIẾT SAU KHI NỘP BÀI -->
+    <div id="resultHub">
+      <div class="result-header">
+        <div>
+          <h2 style="color: var(--primary-dark); font-size: 1.25rem;">🎉 KẾT QUẢ BÀI LÀM & ĐÁP ÁN CHI TIẾT</h2>
+          <p id="resultStudentInfo" style="font-size: 0.9rem; color: var(--muted); margin-top: 2px;"></p>
+        </div>
+        <button class="btn btn-submit" onclick="scrollToFirstSolution()">📖 Xem giải chi tiết từng câu</button>
+      </div>
+
+      <div class="score-cards">
+        <div class="score-item total-highlight">
+          <div class="s-label">TỔNG ĐIỂM</div>
+          <div class="s-val" id="resTotal">0,00 / 10</div>
+          <div class="s-label" id="resTime">Thời gian: 00:00</div>
+        </div>
+        <div class="score-item">
+          <div class="s-label">PHẦN I (18 câu)</div>
+          <div class="s-val" id="resP1">0,00 / 4,50</div>
+          <div class="s-label" id="resCountP1">0/18 câu đúng</div>
+        </div>
+        <div class="score-item">
+          <div class="s-label">PHẦN II (4 câu Đ/S)</div>
+          <div class="s-val" id="resP2">0,00 / 4,00</div>
+          <div class="s-label" id="resCountP2">0/16 ý đúng</div>
+        </div>
+        <div class="score-item">
+          <div class="s-label">PHẦN III (6 câu ngắn)</div>
+          <div class="s-val" id="resP3">0,00 / 1,50</div>
+          <div class="s-label" id="resCountP3">0/6 câu đúng</div>
+        </div>
+      </div>
+
+      <!-- KHU VỰC VIDEO CHỮA ĐỀ CHI TIẾT (CHỈ HIỆN SAU KHI NỘP BÀI) -->
+      <div class="video-solution-card" id="videoSolutionSection"></div>
+
+      <!-- BẢNG TRA CỨU NHANH ĐÁP ÁN -->
+      <div class="quick-key-box">
+        <div class="quick-key-title">
+          <span id="quickKeyHeaderTitle">📋 BẢNG ĐÁP ÁN CHUẨN ĐỀ SỐ 3 (Bấm vào ô bất kỳ để nhảy tới lời giải chi tiết câu đó)</span>
+        </div>
+        <div style="font-size: 0.82rem; font-weight: 700; margin-bottom: 6px; color: var(--muted);">• PHẦN I: Trắc nghiệm 4 lựa chọn</div>
+        <div class="key-p1-grid" id="quickKeyP1"></div>
+
+        <div style="font-size: 0.82rem; font-weight: 700; margin: 8px 0 6px; color: var(--muted);">• PHẦN II (Đúng/Sai) & PHẦN III (Trả lời ngắn)</div>
+        <div id="quickKeyP2P3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; font-size: 0.83rem;"></div>
+      </div>
+
+      <!-- BỘ LỌC CÂU HỎI SAU KHI NỘP BÀI -->
+      <div class="solution-toolbar">
+        <button class="filter-btn active" id="filter-all" onclick="filterQuestions('all')">Tất cả câu hỏi (28)</button>
+        <button class="filter-btn" id="filter-wrong" onclick="filterQuestions('wrong')">❌ Các câu làm sai / chưa làm</button>
+        <button class="filter-btn" id="filter-correct" onclick="filterQuestions('correct')">✅ Các câu làm đúng</button>
+      </div>
+    </div>
+
+    <!-- PHẦN I -->
+    <div class="section-banner">
+      <h3>PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (4,5 điểm)</h3>
+      <p>Thí sinh trả lời từ câu 1 đến câu 18. Mỗi câu hỏi thí sinh chỉ chọn một phương án (0,25 điểm/câu).</p>
+    </div>
+    <div id="part1List"></div>
+
+    <!-- PHẦN II -->
+    <div class="section-banner">
+      <h3>PHẦN II. Câu trắc nghiệm đúng sai (4,0 điểm)</h3>
+      <p>Thí sinh trả lời từ câu 1 đến câu 4. Trong mỗi ý a), b), c), d) ở mỗi câu, chọn Đúng hoặc Sai (1 ý: 0,1đ • 2 ý: 0,25đ • 3 ý: 0,5đ • 4 ý: 1,0đ).</p>
+    </div>
+    <div id="part2List"></div>
+
+    <!-- PHẦN III -->
+    <div class="section-banner">
+      <h3>PHẦN III. Câu trắc nghiệm trả lời ngắn (1,5 điểm)</h3>
+      <p>Thí sinh trả lời từ câu 1 đến câu 6. Điền kết quả số vào ô trống (0,25 điểm/câu).</p>
+    </div>
+    <div id="part3List"></div>
+  </div>
+
+  <!-- PHIẾU TRẢ LỜI TRẮC NGHIỆM -->
+  <div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleOMRDrawer(false)"></div>
+  <aside class="omr-panel" id="omrPanel">
+    <div class="drawer-close-bar">
+      <strong style="color: var(--primary-dark);">📋 Phiếu Trả Lời Trắc Nghiệm</strong>
+      <button class="btn" style="background:#e2e8f0; padding:6px 12px;" onclick="toggleOMRDrawer(false)">Đóng ✕</button>
+    </div>
+
+    <div class="omr-sheet">
+      <div class="omr-corner tl"></div>
+      <div class="omr-corner tr"></div>
+      <div class="omr-corner bl"></div>
+      <div class="omr-corner br"></div>
+
+      <div class="omr-title">PHIẾU TRẢ LỜI TRẮC NGHIỆM</div>
+      <div class="omr-info">
+        <div>Họ tên: <b id="omrStudentName">...</b></div>
+        <div>Mã đề: <b id="omrExamCode">003</b></div>
+        <div>Môn: <b id="omrSubject">Vật Lý 12</b></div>
+        <div>Thời gian: <b id="omrDuration">50 phút</b></div>
+      </div>
+
+      <div class="omr-sec-label">■ PHẦN I (Câu 1 - 18)</div>
+      <div class="omr-p1-grid" id="omrP1"></div>
+
+      <div class="omr-sec-label">■ PHẦN II (Câu 1 - 4: Đúng / Sai)</div>
+      <div class="omr-p2-grid" id="omrP2"></div>
+
+      <div class="omr-sec-label">■ PHẦN III (Câu 1 - 6: Trả lời ngắn)</div>
+      <div class="omr-p3-grid" id="omrP3"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- THANH CỐ ĐỊNH DƯỚI ĐÁY MÀN HÌNH ĐIỆN THOẠI -->
+<div class="mobile-bottom-bar">
+  <button class="btn-open-omr" onclick="toggleOMRDrawer(true)">
+    📋 Phiếu tô (<span id="mobileProgressText">0/28</span>)
+  </button>
+  <button class="btn btn-submit" id="mobileSubmitBtn" style="padding: 11px 18px; border-radius: 12px;" onclick="submitExam()">
+    ✅ Nộp bài
+  </button>
+</div>
+
+<script>
+  // =========================================================================
+  // CẤU HÌNH ĐỀ SỐ 3 & LINK VIDEO GIẢI CHI TIẾT
+  // =========================================================================
+  const EXAM_CONFIG = {
+    badge: "Vật Lý 12 • Giữa Học Kì 1",
+    examTitle: "KIỂM TRA THỬ VẬT LÝ - ĐỀ SỐ 3",
+    headerShortTitle: "KIỂM TRA THỬ VẬT LÝ - ĐỀ 3",
+    examCode: "003",
+    subject: "Vật Lý 12",
+    durationMinutes: 50,
+    questionTag: "[VNA]",
+
+    // LINK VIDEO GIẢI ĐỀ SỐ 3 HIỂN THỊ SAU KHI NỘP BÀI
+    videoSolution: {
+      enabled: true,
+      url: "https://www.youtube.com/watch?v=yfc6OzvaSIo",
+      title: "🎬 VIDEO CHỮA CHI TIẾT ĐỀ SỐ 3",
+      note: "Bạn đã hoàn thành bài thi Đề số 3! Bấm vào nút bên dưới để mở xem video giải chi tiết trên YouTube hoặc bật xem trực tiếp ngay tại trang.",
+      buttonText: "▶️ Mở Xem Video Giải Trên YouTube",
+      extraVideos: []
+    }
+  };
+
+  // =========================================================================
+  // HÌNH ẢNH SVG MINH HỌA CHUẨN THEO ĐỀ SỐ 3
+  // =========================================================================
+  const FIGURES = {
+    p2_q2: `
+      <div class="q-figure">
+        <svg viewBox="0 0 420 185" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif">
+          <defs>
+            <marker id="arrP2Q2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a"/>
+            </marker>
+          </defs>
+
+          <!-- Vạch lưới dọc mỗi 20s (từ 0 đến 380s: 19 cột, mỗi cột 16px, gốc O tại x=55, y=145) -->
+          <g stroke="#475569" stroke-width="1" stroke-dasharray="4,4">
+            <line x1="71" y1="22" x2="71" y2="145"/>
+            <line x1="87" y1="22" x2="87" y2="145"/>
+            <line x1="103" y1="22" x2="103" y2="145"/>
+            <line x1="119" y1="22" x2="119" y2="145"/>
+            <line x1="135" y1="22" x2="135" y2="145" stroke="#0f172a" stroke-width="2.2"/> <!-- 100s -->
+            <line x1="151" y1="22" x2="151" y2="145"/>
+            <line x1="167" y1="22" x2="167" y2="145"/>
+            <line x1="183" y1="22" x2="183" y2="145"/>
+            <line x1="199" y1="22" x2="199" y2="145"/>
+            <line x1="215" y1="22" x2="215" y2="145" stroke="#0f172a" stroke-width="2.2"/> <!-- 200s -->
+            <line x1="231" y1="22" x2="231" y2="145"/> <!-- 220s -->
+            <line x1="247" y1="22" x2="247" y2="145"/>
+            <line x1="263" y1="22" x2="263" y2="145"/>
+            <line x1="279" y1="22" x2="279" y2="145"/>
+            <line x1="295" y1="22" x2="295" y2="145" stroke="#0f172a" stroke-width="2.2"/> <!-- 300s -->
+            <line x1="311" y1="22" x2="311" y2="145"/>
+            <line x1="327" y1="22" x2="327" y2="145"/>
+            <line x1="343" y1="22" x2="343" y2="145"/>
+            <line x1="359" y1="22" x2="359" y2="145"/>
+          </g>
+
+          <!-- Đường ngang nét đứt tại t = 100°C (y = 58) -->
+          <line x1="55" y1="58" x2="359" y2="58" stroke="#0f172a" stroke-width="1.3" stroke-dasharray="4,4"/>
+          <text x="48" y="63" text-anchor="end" font-size="16">100</text>
+
+          <!-- Trục tọa độ -->
+          <line x1="55" y1="145" x2="55" y2="15" stroke="#0f172a" stroke-width="1.8" marker-end="url(#arrP2Q2)"/>
+          <line x1="55" y1="145" x2="390" y2="145" stroke="#0f172a" stroke-width="1.8" marker-end="url(#arrP2Q2)"/>
+          <text x="62" y="22" font-size="16" font-style="italic" font-weight="bold">t( °C)</text>
+          <text x="372" y="168" font-size="16" font-style="italic">τ <tspan font-style="normal">(s)</tspan></text>
+          <text x="42" y="152" text-anchor="end" font-size="16">O</text>
+
+          <!-- Nhãn trục thời gian -->
+          <text x="135" y="168" text-anchor="middle" font-size="16">100</text>
+          <text x="215" y="168" text-anchor="middle" font-size="16">200</text>
+
+          <!-- Đường biểu diễn thực nghiệm: nằm ngang từ 0 đến 220s (x=231), sau đó tăng thẳng lên gần 100°C tại x=359 -->
+          <polyline points="55,145 231,145 359,66" fill="none" stroke="#0f172a" stroke-width="3.6" stroke-linejoin="round"/>
+        </svg>
+        <div class="q-figure-caption">Hình Phần II - Câu 2: Đồ thị thực nghiệm đo nhiệt độ của khối nước theo thời gian đun</div>
+      </div>
+    `,
+    p3_q6: `
+      <div class="q-figure">
+        <svg viewBox="0 0 340 205" xmlns="http://www.w3.org/2000/svg" font-family="Times New Roman, serif">
+          <defs>
+            <marker id="arrP3Q6" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#0f172a"/>
+            </marker>
+          </defs>
+          <!-- Trục tọa độ -->
+          <line x1="55" y1="160" x2="55" y2="18" stroke="#0f172a" stroke-width="1.8" marker-end="url(#arrP3Q6)"/>
+          <line x1="55" y1="160" x2="310" y2="160" stroke="#0f172a" stroke-width="1.8" marker-end="url(#arrP3Q6)"/>
+          <text x="64" y="25" font-size="16" font-weight="bold">t (°C)</text>
+          <text x="265" y="150" font-size="16" font-weight="bold">Q (kJ)</text>
+          <text x="42" y="175" font-size="16">O</text>
+
+          <!-- Mốc nhiệt độ 2°C (y = 65) và Q = 170, 175 kJ (x = 175, 235) -->
+          <text x="45" y="70" text-anchor="end" font-size="16">2</text>
+          <line x1="55" y1="65" x2="235" y2="65" stroke="#0f172a" stroke-width="1.3" stroke-dasharray="4,3"/>
+          <line x1="235" y1="65" x2="235" y2="160" stroke="#0f172a" stroke-width="1.3" stroke-dasharray="4,3"/>
+
+          <text x="175" y="180" text-anchor="middle" font-size="16">170</text>
+          <text x="235" y="180" text-anchor="middle" font-size="16">175</text>
+
+          <!-- Đồ thị đường gấp khúc: từ (0;0) -> (170;0) -> (175;2) -->
+          <polyline points="55,160 175,160 235,65" fill="none" stroke="#1d4ed8" stroke-width="3" stroke-linejoin="round"/>
+          <circle cx="175" cy="160" r="3" fill="#0f172a"/>
+          <circle cx="235" cy="65" r="3" fill="#0f172a"/>
+        </svg>
+        <div class="q-figure-caption">Hình Phần III - Câu 6: Đồ thị sự biến thiên nhiệt độ của khối nước đá đựng trong ca nhôm theo nhiệt lượng cung cấp</div>
+      </div>
+    `
+  };
+
+  // =========================================================================
+  // DỮ LIỆU ĐỀ SỐ 3 - VẬT LÝ 12 (28 CÂU CHUẨN THEO ĐỀ GỐC)
+  // =========================================================================
+  const PART1_QUESTIONS = [
+    {
+      id: 1,
+      q: "Một nhiệt kế thể tích không đổi hiển thị nhiệt độ $0^\\circ\\text{C}$ và $100^\\circ\\text{C}$ tương ứng với các áp suất $50\\text{ cmHg}$ và $90\\text{ cmHg}$. Biết nhiệt độ đọc được là hàm bậc nhất của áp suất. Khi áp suất thủy ngân là $60\\text{ cmHg}$ thì nhiệt độ đọc được bằng",
+      options: ["$35^\\circ\\text{C}$.", "$30^\\circ\\text{C}$.", "$20^\\circ\\text{C}$.", "$25^\\circ\\text{C}$."],
+      ans: 3,
+      explain: "Vì nhiệt độ là hàm bậc nhất của áp suất nên:<br>$$t = \\frac{p - p_0}{p_{100} - p_0}\\cdot 100^\\circ\\text{C} = \\frac{60 - 50}{90 - 50}\\cdot 100^\\circ\\text{C} = 25^\\circ\\text{C}$$"
+    },
+    {
+      id: 2,
+      q: "Phát biểu nào sau đây <b>không phù hợp</b> khi điền vào chỗ trống trong câu sau?<br><i>\"Sự bay hơi của một khối chất lỏng....\"</i>",
+      options: [
+        "phụ thuộc vào diện tích mặt thoáng, diện tích mặt thoáng càng lớn thì sự bay hơi xảy ra càng nhanh.",
+        "xảy ra ở nhiệt độ bất kỳ.",
+        "phụ thuộc vào nhiệt độ, nhiệt độ càng cao sự bay hơi xảy ra càng nhanh.",
+        "phụ thuộc vào độ ẩm của không khí trên mặt thoáng, độ ẩm càng lớn thì sự bay hơi xảy ra càng nhanh."
+      ],
+      ans: 3,
+      explain: "Độ ẩm của không khí trên mặt thoáng càng lớn thì sự bay hơi diễn ra càng <b>chậm</b> (chứ không phải càng nhanh)."
+    },
+    {
+      id: 3,
+      q: "Để diệt trừ các bào tử nấm và kích thích quá trình nảy mầm của hạt giống lúa, người nông dân đã sử dụng một kinh nghiệm dân gian là ngâm chúng vào trong nước ấm theo công thức \"hai sôi, ba lạnh\". Tức là nước ấm ở nhiệt độ $t_A$ sẽ được tạo ra bằng cách pha hai phần nước sôi $100^\\circ\\text{C}$ với ba phần nước lạnh $t_L$. Bỏ qua sự trao đổi nhiệt với môi trường, với bình chứa. Chọn biểu thức đúng.",
+      options: [
+        "$t_A = \\dfrac{200 + 3t_L}{2}$.",
+        "$t_A = \\dfrac{200 + 2t_L}{2}$.",
+        "$t_A = \\dfrac{200 + 3t_L}{5}$.",
+        "$t_A = \\dfrac{100 + 3t_L}{5}$."
+      ],
+      ans: 2,
+      explain: "Áp dụng phương trình cân bằng nhiệt khi pha $2$ phần nước sôi ($100^\\circ\\text{C}$) với $3$ phần nước lạnh ($t_L$):<br>$$2mc(100 - t_A) = 3mc(t_A - t_L) \\Rightarrow 200 - 2t_A = 3t_A - 3t_L \\Rightarrow t_A = \\frac{200 + 3t_L}{5}$$"
+    },
+    {
+      id: 4,
+      q: "Nhiệt hóa hơi riêng có đơn vị đo là",
+      options: [
+        "$\\dfrac{\\text{J}\\cdot\\text{kg}}{\\text{K}}$.",
+        "$\\dfrac{\\text{J}\\cdot\\text{K}}{\\text{kg}}$.",
+        "$\\dfrac{\\text{J}}{\\text{kg}}$.",
+        "$\\text{J}$."
+      ],
+      ans: 2,
+      explain: "Từ công thức $Q = Lm \\Rightarrow L = \\frac{Q}{m}$, đơn vị của nhiệt hóa hơi riêng là $\\frac{\\text{J}}{\\text{kg}}$."
+    },
+    {
+      id: 5,
+      q: "Nhiệt hóa hơi riêng của chất lỏng <b>không</b> phụ thuộc vào",
+      options: [
+        "khối lượng của khối chất lỏng đó.",
+        "bản chất của khối chất lỏng đó.",
+        "nhiệt độ sôi của khối chất lỏng đó.",
+        "áp suất bề mặt của khối chất lỏng đó."
+      ],
+      ans: 0,
+      explain: "Nhiệt hóa hơi riêng đặc trưng cho bản chất của chất lỏng và điều kiện nhiệt độ, áp suất khi hóa hơi (vì được tính trên mỗi $1\\text{ kg}$ chất lỏng), nên <b>không phụ thuộc vào khối lượng</b> của khối chất lỏng."
+    },
+    {
+      id: 6,
+      q: "Khi thép đang nóng chảy được làm nguội nhanh về nhiệt độ phòng sẽ giúp tăng độ cứng cho thép và cách làm như vậy được gọi là tôi thép. Người ta có thể sử dụng nước để làm hạ nhiệt độ nhanh cho thép đang nóng đỏ vì",
+      options: [
+        "sử dụng nước là do thói quen vì thật ra có thể để thép nóng đỏ trong không khí thì thép cũng hạ nhanh về nhiệt độ phòng.",
+        "nhiệt độ nóng chảy của nước thấp hơn nhiều so với của thép.",
+        "nhiệt dung riêng của nước cao hơn nhiều so với của thép, nhiệt độ sôi của nước lại thấp hơn nhiều so với nhiệt độ nóng chảy của thép.",
+        "nước có khả năng bốc hơi rất nhanh khi gặp kim loại nóng."
+      ],
+      ans: 2,
+      explain: "Nước có nhiệt dung riêng lớn hơn nhiều so với thép và nhiệt độ sôi của nước thấp hơn nhiều so với nhiệt độ nóng chảy của thép nên hấp thụ nhiệt lượng lớn từ thép rất nhanh."
+    },
+    {
+      id: 7,
+      q: "Biểu thức diễn tả đúng độ biến thiên nội năng $\\Delta U$ của chất khí trong quá trình chất khí vừa nhận nhiệt lượng $Q$ vừa nhận công $A$ là",
+      options: [
+        "$\\Delta U = A + Q;\\ Q > 0,\\ A < 0$.",
+        "$\\Delta U = Q;\\ Q > 0$.",
+        "$\\Delta U = A + Q;\\ Q < 0,\\ A > 0$.",
+        "$\\Delta U = A + Q;\\ Q > 0,\\ A > 0$."
+      ],
+      ans: 3,
+      explain: "Theo quy ước dấu của định luật I NĐLH ($\\Delta U = A + Q$): hệ nhận nhiệt lượng thì $Q > 0$ và nhận công thì $A > 0$."
+    },
+    {
+      id: 8,
+      q: "Nước là chất có X lớn hơn nhiều so với các chất lỏng thông thường khác. Nhờ đó, nước có vai trò quan trọng đối với đời sống con người. Khoảng $70\\%$ bề mặt của Trái Đất được bao phủ bởi nước. Nhờ có X lớn nên lượng nước này có thể hấp thụ lượng nhiệt khổng lồ của năng lượng mặt trời mà vẫn giữ cho nhiệt độ của bề mặt Trái Đất tăng không nhanh và không nhiều, tạo điều kiện thuận lợi cho sự sống của con người và các sinh vật khác. Cũng nhờ có X lớn mà nước biển nóng lên và nguội đi chậm hơn các vùng đất xung quanh. Do sự ổn định này của nhiệt độ nước biển mà các đảo và các vùng đất ven biển có khí hậu tương đối ôn hoà, thích hợp với con người. Cũng nhờ có X mà nước thường được dùng trong các thiết bị làm mát của động cơ nhiệt. Cụm từ tương ứng với X là",
+      options: [
+        "nhiệt hóa hơi riêng.",
+        "nhiệt nóng chảy riêng.",
+        "khối lượng riêng.",
+        "nhiệt dung riêng."
+      ],
+      ans: 3,
+      explain: "Nước có <b>nhiệt dung riêng</b> lớn ($c \\approx 4200\\text{ J/kg}\\cdot\\text{K}$) nên có khả năng thu vào hoặc tỏa ra nhiệt lượng lớn mà độ biến thiên nhiệt độ nhỏ, giúp điều hòa khí hậu và làm mát động cơ."
+    },
+    {
+      id: 9,
+      q: "Khi làm muối, người ta đã dựa vào hiện tượng nào sau đây của nước?",
+      options: ["Sự sôi.", "Bay hơi.", "Đông đặc.", "Ngưng tụ."],
+      ans: 1,
+      explain: "Nghề làm muối dựa vào hiện tượng <b>bay hơi</b> của nước biển dưới ánh nắng mặt trời và gió để thu được tinh thể muối kết tinh."
+    },
+    {
+      id: 10,
+      q: "Nhiệt hoá hơi riêng của một chất lỏng là nhiệt lượng cần cung cấp để $1\\text{ kg}$ chất lỏng đó",
+      options: [
+        "hoá hơi hoàn toàn.",
+        "hoá hơi.",
+        "hoá hơi hoàn toàn ở nhiệt độ xác định.",
+        "ngưng tụ hoàn toàn ở nhiệt độ xác định."
+      ],
+      ans: 2,
+      explain: "Theo định nghĩa, nhiệt hóa hơi riêng của một chất lỏng là nhiệt lượng cần cung cấp để $1\\text{ kg}$ chất lỏng đó <b>hóa hơi hoàn toàn ở một nhiệt độ xác định</b>."
+    },
+    {
+      id: 11,
+      q: "Cho nhẹ nhàng vài viên đá vào một cốc nước. Sau một lúc ta thấy bên ngoài thành cốc có các giọt nước nhỏ li ti bám vào. Hiện tượng đó là do",
+      options: [
+        "nước trong cốc thấm ra.",
+        "hơi nước trong không khí gặp lạnh ngưng kết lại.",
+        "hơi nước trong không khí gặp lạnh ngưng tụ.",
+        "nước trong cốc bay hơi và ngưng tụ lại."
+      ],
+      ans: 2,
+      explain: "Hơi nước trong không khí xung quanh thành cốc gặp lạnh (do nước đá làm giảm nhiệt độ thành cốc) nên <b>ngưng tụ</b> thành các giọt nước đọng ngoài thành cốc."
+    },
+    {
+      id: 12,
+      q: "Chọn cụm từ thích hợp điền vào các chỗ trống: “Ở thể khí, các phân tử ở (1)...... Lực tương tác giữa các phân tử (2)...... (trừ trường hợp chúng va chạm nhau) nên các phân tử chuyển động hoàn toàn (3)...... Do đó, khối chất khí không có (4)......”",
+      options: [
+        "(1) gần nhau, (2) rất yếu, (3) trật tự, (4) hình dạng và thể tích riêng.",
+        "(1) gần nhau, (2) rất mạnh, (3) hỗn loạn, (4) hình dạng và thể tích riêng.",
+        "(1) xa nhau, (2) rất yếu, (3) hỗn loạn, (4) khối lượng và hình dạng.",
+        "(1) xa nhau, (2) rất yếu, (3) hỗn loạn, (4) hình dạng và thể tích riêng."
+      ],
+      ans: 3,
+      explain: "Ở thể khí, các phân tử ở (1) <b>xa nhau</b>, lực tương tác giữa các phân tử (2) <b>rất yếu</b> nên các phân tử chuyển động hoàn toàn (3) <b>hỗn loạn</b>. Do đó, khối chất khí không có (4) <b>hình dạng và thể tích riêng</b>."
+    },
+    {
+      id: 13,
+      q: "Gọi lực liên kết giữa các phân tử trong chất rắn, chất lỏng, chất khí lần lượt là $F_1,\\ F_2,\\ F_3$ thì",
+      options: [
+        "$F_1 < F_2 = F_3$.",
+        "$F_1 = F_2 = F_3$.",
+        "$F_1 > F_2 = F_3$.",
+        "$F_1 > F_2 > F_3$."
+      ],
+      ans: 3,
+      explain: "Lực liên kết giữa các phân tử mạnh nhất ở chất rắn ($F_1$), yếu hơn ở chất lỏng ($F_2$) và rất yếu ở chất khí ($F_3$), nên $F_1 > F_2 > F_3$."
+    },
+    {
+      id: 14,
+      q: "Dùng một ca múc nước ở thùng A chứa nước có nhiệt độ $t_A = 20^\\circ\\text{C}$ và ở thùng B chứa nước ở nhiệt độ $t_B = 80^\\circ\\text{C}$ rồi đổ vào thùng C. Biết rằng trước khi đổ, trong thùng C đã có sẵn một lượng nước ở nhiệt độ $t_C = 40^\\circ\\text{C}$ và bằng tổng số ca nước vừa mới đổ thêm vào nó. Bỏ qua sự trao đổi nhiệt của nước với môi trường, với bình chứa và ca múc nước. Lượng nước trong ca giống nhau trong mỗi lần múc. Để nước ở thùng C là $50^\\circ\\text{C}$ thì số ca nước phải múc ở mỗi thùng A và B lần lượt là",
+      options: ["$3n;\\ 2n$.", "$n;\\ 2n$.", "$2n;\\ n$.", "$2n;\\ 3n$."],
+      ans: 1,
+      explain: "Gọi $n_A,\\ n_B$ là số ca múc từ thùng A ($20^\\circ\\text{C}$) và thùng B ($80^\\circ\\text{C}$). Số ca nước có sẵn trong thùng C ($40^\\circ\\text{C}$) là $n_C = n_A + n_B$.<br>Phương trình cân bằng nhiệt ở $t = 50^\\circ\\text{C}$:<br>$$n_A(50 - 20) + (n_A + n_B)(50 - 40) = n_B(80 - 50) \\Rightarrow 40n_A = 20n_B \\Rightarrow n_B = 2n_A$$Vậy số ca cần múc ở thùng A và B lần lượt là $n$ và $2n$."
+    },
+    {
+      id: 15,
+      q: "Chọn đáp án có các cụm từ thích hợp điền vào chỗ trống: “Khi cho 2 vật chênh lệch nhiệt độ tiếp xúc nhau, nhiệt năng luôn truyền từ vật có (1)...... sang vật có (2)...... Quá trình truyền nhiệt kết thúc khi hai vật (3)...... (trạng thái này được gọi là trạng thái (4)......)”",
+      options: [
+        "(1) nhiệt độ thấp; (2) nhiệt độ cao; (3) có cùng nội năng; (4) cân bằng nội năng.",
+        "(1) nhiệt độ cao; (2) nhiệt độ thấp; (3) có cùng nhiệt độ; (4) cân bằng nhiệt.",
+        "(1) nhiệt độ thấp; (2) nhiệt độ cao; (3) có cùng nhiệt độ; (4) cân bằng nhiệt.",
+        "(1) nhiệt độ cao; (2) nhiệt độ thấp; (3) có cùng nội năng; (4) cân bằng nội năng."
+      ],
+      ans: 1,
+      explain: "Nhiệt năng truyền từ vật có (1) <b>nhiệt độ cao</b> sang vật có (2) <b>nhiệt độ thấp</b> và dừng lại khi hai vật (3) <b>có cùng nhiệt độ</b> — gọi là trạng thái (4) <b>cân bằng nhiệt</b>."
+    },
+    {
+      id: 16,
+      q: "Một bạn học sinh làm thí nghiệm với đầy đủ thiết bị để xác định được nhiệt nóng chảy riêng của một chất khi đã biết nhiệt dung riêng của chất đó trong trạng thái rắn và trạng thái lỏng. Hãy chỉ ra cách tiến hành thí nghiệm nào <b>sai</b> trong các cách sau?",
+      options: [
+        "Bắt đầu thí nghiệm từ khi chất đó đang ở trạng thái rắn và kết thúc khi chất đó đã ở trạng thái lỏng.",
+        "Bắt đầu thí nghiệm từ khi chất đó đang ở trạng thái rắn và kết thúc khi đã thấy có sự nóng chảy của chất đó.",
+        "Thực hiện thí nghiệm từ khi chất bắt đầu đạt đến nhiệt độ nóng chảy nhưng chưa nóng chảy và kết thúc đo khi chất đó đã hoàn toàn ở trạng thái lỏng.",
+        "Thực hiện thí nghiệm từ khi chất đó bắt đầu đạt đến nhiệt độ nóng chảy nhưng chưa nóng chảy và kết thúc khi nóng chảy hoàn toàn và vẫn đang ở nhiệt độ nóng chảy."
+      ],
+      ans: 1,
+      explain: "Nếu kết thúc thí nghiệm ngay khi <i>\"đã thấy có sự nóng chảy\"</i> (chất mới nóng chảy một phần chưa xác định được khối lượng) thì không thể tính được nhiệt nóng chảy riêng $\\lambda = \\frac{Q_{\\text{nc}}}{m}$."
+    },
+    {
+      id: 17,
+      q: "Nguyên nhân chính trong việc dùng wolfram để làm dây tóc trong bóng đèn sợi đốt là do wolfram",
+      options: [
+        "có phân tử khối lớn.",
+        "mềm dễ làm sợi dây tóc.",
+        "là kim loại rất cứng.",
+        "có nhiệt độ nóng chảy cao."
+      ],
+      ans: 3,
+      explain: "Khi đèn sợi đốt sáng, dây tóc bị đốt nóng tới khoảng $2500^\\circ\\text{C}$. Wolfram có <b>nhiệt độ nóng chảy rất cao</b> ($3422^\\circ\\text{C}$) nên không bị nóng chảy."
+    },
+    {
+      id: 18,
+      q: "Sắp xếp các nhiệt độ sau $37^\\circ\\text{C}$, $315\\text{ K}$, $345\\text{ K}$, $68^\\circ\\text{F}$ theo thứ tự tăng dần là",
+      options: [
+        "$68^\\circ\\text{F}$, $37^\\circ\\text{C}$, $315\\text{ K}$, $345\\text{ K}$.",
+        "$37^\\circ\\text{C}$, $315\\text{ K}$, $345\\text{ K}$, $68^\\circ\\text{F}$.",
+        "$315\\text{ K}$, $345\\text{ K}$, $37^\\circ\\text{C}$, $68^\\circ\\text{F}$.",
+        "$68^\\circ\\text{F}$, $315\\text{ K}$, $37^\\circ\\text{C}$, $315\\text{ K}$."
+      ],
+      ans: 0,
+      explain: "Đổi tất cả về thang Kelvin:<br>• $68^\\circ\\text{F} = \\frac{68 - 32}{1,8} = 20^\\circ\\text{C} \\approx 293\\text{ K}$.<br>• $37^\\circ\\text{C} \\approx 310\\text{ K}$.<br>• $315\\text{ K}$ và $345\\text{ K}$.<br>Thứ tự tăng dần: $68^\\circ\\text{F} < 37^\\circ\\text{C} < 315\\text{ K} < 345\\text{ K}$."
+    }
+  ];
+
+  const PART2_QUESTIONS = [
+    {
+      id: 1,
+      q: "Xét nước tinh khiết đang ở nhiệt độ điểm ba, đó là một mốc trong thang nhiệt độ Kelvin.",
+      items: [
+        { label: "a", text: "Hệ khảo sát đang có nhiệt độ theo thang Celsius là $0,01^\\circ\\text{C}$.", ans: true },
+        { label: "b", text: "Hệ khảo sát có áp suất $1\\text{ atm}$.", ans: false },
+        { label: "c", text: "Nước tinh khiết tồn tại đồng thời ở cả ba thể rắn, lỏng, khí.", ans: true },
+        { label: "d", text: "Nhiệt độ của hệ khảo sát được chọn làm mốc trên thang đo Kelvin và có giá trị là $273,15\\text{ K}$.", ans: false }
+      ],
+      explain: `
+        • <b>Ý a) Đúng:</b> Nhiệt độ điểm ba của nước tinh khiết theo thang Celsius là $0,01^\\circ\\text{C}$.<br>
+        • <b>Ý b) Sai:</b> Áp suất tại điểm ba của nước là $611,73\\text{ Pa} \\approx 0,006\\text{ atm}$ (không phải $1\\text{ atm}$).<br>
+        • <b>Ý c) Đúng:</b> Ở trạng thái điểm ba, nước tinh khiết tồn tại cân bằng đồng thời ở cả 3 thể: rắn (nước đá), lỏng (nước) và khí (hơi nước).<br>
+        • <b>Ý d) Sai:</b> Nhiệt độ điểm ba của nước trong thang Kelvin có giá trị chuẩn là $273,16\\text{ K}$ (còn $273,15\\text{ K}$ ứng với $0^\\circ\\text{C}$).
+      `
+    },
+    {
+      id: 2,
+      q: "Trong thí nghiệm đo nhiệt nóng chảy riêng của nước đá, người ta sử dụng dòng điện để cung cấp nhiệt lượng cho $0,6\\text{ kg}$ nước đá trong nhiệt lượng kế. Dùng Oát kế đo được công suất dòng điện cung cấp là $930\\text{ W}$; dùng đồng hồ để đo thời gian và nhiệt kế để đo nhiệt độ của khối nước. Đồ thị thực nghiệm đo được như hình.",
+      figure: FIGURES.p2_q2,
+      items: [
+        { label: "a", text: "Thời gian để nước đá tan hoàn toàn là $220\\text{ s}$.", ans: true },
+        { label: "b", text: "Nếu hao phí nhiệt lượng là $2\\%$ thì nhiệt nóng chảy riêng của nước đá là $334,18\\text{ kJ/kg}$.", ans: true },
+        { label: "c", text: "Bỏ qua mọi hao phí thì nhiệt nóng chảy riêng của nước đá là $310\\text{ kJ/kg}$.", ans: false },
+        { label: "d", text: "Trong giai đoạn từ thời điểm $0\\text{ s}$ đến $200\\text{ s}$, khối chất không nhận thêm nhiệt lượng.", ans: false }
+      ],
+      explain: `
+        • <b>Ý a) Đúng:</b> Từ $0$ đến $100\\text{ s}$ được chia làm $5$ khoảng lưới nên mỗi khoảng lưới dọc ứng với $20\\text{ s}$. Đoạn nằm ngang ở $0^\\circ\\text{C}$ kéo dài từ $0$ đến vạch thứ nhất sau mốc $200\\text{ s}$, tức là $\\tau = 220\\text{ s}$.<br>
+        • <b>Ý b) Đúng:</b> Nhiệt lượng dòng điện cung cấp trong $220\\text{ s}$ là $Q_{\\text{tp}} = P\\tau = 930 \\times 220 = 204600\\text{ J} = 204,6\\text{ kJ}$. Nếu hao phí $2\\%$, lượng nhiệt nước đá thu vào để nóng chảy là $Q_{\\text{ích}} = 0,98 \\times 204,6 = 200,508\\text{ kJ} \\Rightarrow \\lambda = \\frac{200,508}{0,6} = 334,18\\text{ kJ/kg}$.<br>
+        • <b>Ý c) Sai:</b> Nếu bỏ qua mọi hao phí thì $\\lambda = \\frac{204,6}{0,6} = 341\\text{ kJ/kg} \\neq 310\\text{ kJ/kg}$.<br>
+        • <b>Ý d) Sai:</b> Trong giai đoạn từ $0\\text{ s}$ đến $220\\text{ s}$, nước đá liên tục nhận nhiệt lượng từ dây nung để chuyển thể từ rắn sang lỏng (nhiệt độ giữ không đổi ở $0^\\circ\\text{C}$).
+      `
+    },
+    {
+      id: 3,
+      q: "Có hai chai nước lạnh A và B hoàn toàn giống nhau. Cho chai nước A vào chậu nước đến khi cân bằng nhiệt thì thấy nhiệt độ nước trong chậu giảm xuống. Lấy chai nước A ra ngoài và cho chai nước B vào chậu nước đến khi cân bằng nhiệt thì thấy nhiệt độ nước trong chậu tiếp tục giảm xuống, lấy chai B ra khỏi chậu nước. Xem như chỉ có sự trao đổi nhiệt giữa chai nước A, B và nước trong chậu.",
+      items: [
+        { label: "a", text: "Sau khi lấy các chai nước ra khỏi chậu thì nhiệt độ của chai nước A cao hơn nhiệt độ của chai nước B.", ans: true },
+        { label: "b", text: "Độ giảm nhiệt độ của chậu nước trong lần nhúng chai nước A nhiều hơn lần nhúng chai nước B.", ans: true },
+        { label: "c", text: "Tổng độ tăng nhiệt độ của 2 chai nước bằng tổng độ giảm nhiệt độ của nước trong chậu ở 2 lần nhúng.", ans: false },
+        { label: "d", text: "Nhiệt lượng của chậu nước truyền cho hai chai nước là như nhau.", ans: false }
+      ],
+      explain: `
+        • <b>Ý a) Đúng:</b> Nhiệt độ cân bằng lần 1 ($T_1$ - nhiệt độ chai A khi lấy ra) lớn hơn nhiệt độ cân bằng lần 2 ($T_2$ - nhiệt độ chai B khi lấy ra).<br>
+        • <b>Ý b) Đúng:</b> Ở lần nhúng thứ nhất, độ chênh lệch nhiệt độ ban đầu giữa chậu nước và chai A lớn hơn so với lần nhúng chai B ($T_0 - t_0 > T_1 - t_0$) nên độ giảm nhiệt độ của chậu nước ở lần 1 lớn hơn lần 2.<br>
+        • <b>Ý c) Sai:</b> Chỉ có tổng nhiệt lượng thu vào của 2 chai bằng tổng nhiệt lượng tỏa ra của chậu nước, còn độ biến thiên nhiệt độ phụ thuộc vào nhiệt dung của từng vật.<br>
+        • <b>Ý d) Sai:</b> Vì $T_1 > T_2$ nên độ tăng nhiệt độ của chai A lớn hơn chai B $\\Rightarrow$ nhiệt lượng chậu nước truyền cho chai A lớn hơn truyền cho chai B.
+      `
+    },
+    {
+      id: 4,
+      q: "Nhiệt kế rượu được chế tạo với thành phần chính của chất lỏng trong nhiệt kế là rượu. Một nhiệt kế rượu thông thường có giới hạn đo từ $-115^\\circ\\text{C}$ đến $78,5^\\circ\\text{C}$.",
+      items: [
+        { label: "a", text: "Rượu được chọn làm nhiệt kế vì tính chất giãn nở đều theo nhiệt độ của nó.", ans: true },
+        { label: "b", text: "Theo thang đo nhiệt độ Kelvin (làm tròn) thì giới hạn đo của nhiệt kế rượu kể trên là từ $158\\text{ K}$ đến $351,5\\text{ K}$.", ans: true },
+        { label: "c", text: "Có thể dùng nhiệt kế rượu để đo nhiệt độ sôi của nước.", ans: false },
+        { label: "d", text: "Hoàn toàn có thể dùng nước tinh khiết để thay thế cho rượu làm nhiệt kế.", ans: false }
+      ],
+      explain: `
+        • <b>Ý a) Đúng:</b> Rượu dãn nở vì nhiệt khá đều và có nhiệt độ đông đặc rất thấp ($-115^\\circ\\text{C}$).<br>
+        • <b>Ý b) Đúng:</b> Đổi sang Kelvin: $T_{\\min} = -115 + 273 = 158\\text{ K}$ và $T_{\\max} = 78,5 + 273 = 351,5\\text{ K}$.<br>
+        • <b>Ý c) Sai:</b> Nhiệt độ sôi của nước ở $1\\text{ atm}$ là $100^\\circ\\text{C} > 78,5^\\circ\\text{C}$, vượt quá giới hạn đo của nhiệt kế rượu.<br>
+        • <b>Ý d) Sai:</b> Nước tinh khiết nở vì nhiệt không đều (từ $0^\\circ\\text{C}$ đến $4^\\circ\\text{C}$ nước co lại khi nóng lên) và đông đặc ngay ở $0^\\circ\\text{C}$ nên không dùng làm chất lỏng nhiệt kế.
+      `
+    }
+  ];
+
+  const PART3_QUESTIONS = [
+    {
+      id: 1,
+      q: "Người ta cung cấp một nhiệt lượng $1,5\\text{ J}$ cho chất khí đựng trong một xilanh đặt nằm ngang. Khí nở ra đẩy pittông di chuyển đều một đoạn $5\\text{ cm}$. Biết lực ma sát giữa pittông và xilanh có độ lớn $20\\text{ N}$. Xem như không có sự truyền nhiệt giữa khí và môi trường xung quanh. Tính độ biến thiên nội năng của khí trong xilanh theo đơn vị $\\text{J}$?",
+      ans: 0.5,
+      displayAns: "0,5",
+      explain: "Pittông chuyển động đều nên độ lớn lực đẩy của chất khí bằng lực ma sát: $F = F_{\\text{ms}} = 20\\text{ N}$.<br>Công mà chất khí thực hiện: $A' = F\\cdot s = 20 \\times 0,05 = 1\\text{ J} \\Rightarrow A = -1\\text{ J}$.<br>Độ biến thiên nội năng của khí: $\\Delta U = Q + A = 1,5 + (-1) = 0,5\\text{ J}$."
+    },
+    {
+      id: 2,
+      q: "Một bình thuỷ tinh dung tích $20\\text{ lít}$ chứa $20\\text{ lít}$ khí oxygen. Nếu ta thêm vào bình $2\\text{ lít}$ khí oxygen nữa thì thể tích oxygen trong bình lúc này là bao nhiêu $\\text{m}^3$?",
+      ans: 0.02,
+      displayAns: "0,02",
+      explain: "Chất khí không có thể tích riêng mà luôn chiếm toàn bộ thể tích của bình chứa. Do dung tích bình thủy tinh không đổi là $20\\text{ lít}$ nên thể tích khí oxygen trong bình lúc này vẫn là $V = 20\\text{ lít} = 0,02\\text{ m}^3$."
+    },
+    {
+      id: 3,
+      q: "Rót khối lượng $m_1 = 0,5\\text{ kg}$ nước ở nhiệt độ $t_1 = 15^\\circ\\text{C}$ vào một bình nhiệt lượng kế có khối lượng $m_2 = 0,2\\text{ kg}$ đang ở nhiệt độ $t_2 = 30^\\circ\\text{C}$. Thả một cục nước đá có khối lượng $m_3 = 0,5\\text{ kg}$ ở nhiệt độ $t_3 = -10^\\circ\\text{C}$ vào nước trong bình nhiệt lượng kế trên. Cho biết nhiệt dung riêng của nước, bình nhiệt lượng kế và nước đá tương ứng là $c_1 = 4,2\\cdot 10^3\\text{ J/kg}\\cdot\\text{K}$; $c_2 = 880\\text{ J/kg}\\cdot\\text{K}$; $c_3 = 2,1\\cdot 10^3\\text{ J/kg}\\cdot\\text{K}$; nhiệt nóng chảy của nước đá là $\\lambda = 3,3\\cdot 10^5\\text{ J/kg}$. Bỏ qua sự trao đổi nhiệt với môi trường ngoài. Nhiệt độ ($^\\circ\\text{C}$) của hỗn hợp sau khi cân bằng nhiệt được thiết lập bằng bao nhiêu?",
+      ans: 0,
+      displayAns: "0",
+      explain: "• Nhiệt lượng tối đa mà nước và bình nhiệt lượng kế tỏa ra khi hạ xuống $0^\\circ\\text{C}$:<br>$$Q_{\\text{tỏa}} = m_1 c_1(15 - 0) + m_2 c_2(30 - 0) = 0,5\\times 4200\\times 15 + 0,2\\times 880\\times 30 = 36780\\text{ J}$$• Nhiệt lượng cần để $0,5\\text{ kg}$ nước đá tăng từ $-10^\\circ\\text{C}$ lên $0^\\circ\\text{C}$:<br>$$Q_{\\text{thu 1}} = m_3 c_3(0 - (-10)) = 0,5\\times 2100\\times 10 = 10500\\text{ J}$$• Nhiệt lượng cần để $0,5\\text{ kg}$ nước đá ở $0^\\circ\\text{C}$ tan hoàn toàn:<br>$$Q_{\\text{nc}} = m_3\\lambda = 0,5\\times 3,3\\cdot 10^5 = 165000\\text{ J}$$Vì $Q_{\\text{thu 1}} < Q_{\\text{tỏa}} < Q_{\\text{thu 1}} + Q_{\\text{nc}}$ nên nước đá chỉ tan một phần, hỗn hợp khi cân bằng nhiệt gồm cả nước và nước đá ở $0^\\circ\\text{C}$."
+    },
+    {
+      id: 4,
+      q: "Người ta dùng bếp dầu hỏa để đun sôi nước, biết rằng phải tốn $150\\text{ g}$ dầu hỏa mới đun sôi được $4,5\\text{ lít}$ nước ở $20^\\circ\\text{C}$, và cứ đốt $1\\text{ kg}$ dầu thì lượng nhiệt tỏa ra là $q = 44\\cdot 10^6\\text{ J}$. Nhiệt dung riêng của nước là $4200\\text{ J/kg}\\cdot\\text{K}$, khối lượng riêng của nước là $1000\\text{ kg/m}^3$. Hiệu suất của bếp là bao nhiêu $\\%$? (làm tròn kết quả đến chữ số hàng phần mười)",
+      ans: 22.9,
+      displayAns: "22,9",
+      explain: "• Nhiệt lượng có ích để đun sôi $4,5\\text{ kg}$ nước từ $20^\\circ\\text{C}$ lên $100^\\circ\\text{C}$:<br>$$Q_{\\text{ích}} = mc\\Delta t = 4,5 \\times 4200 \\times (100 - 20) = 1512000\\text{ J}$$• Nhiệt lượng toàn phần do $150\\text{ g} = 0,15\\text{ kg}$ dầu hỏa tỏa ra:<br>$$Q_{\\text{tp}} = m_{\\text{dầu}}\\cdot q = 0,15 \\times 44\\cdot 10^6 = 6600000\\text{ J}$$• Hiệu suất của bếp:<br>$$H = \\frac{Q_{\\text{ích}}}{Q_{\\text{tp}}}\\times 100\\% = \\frac{1512000}{6600000}\\times 100\\% \\approx 22,9\\%$$"
+    },
+    {
+      id: 5,
+      q: "Tại một đập thủy điện, người ta cho nước rơi từ độ cao $96\\text{ m}$ xuống và đập vào cánh tuabin làm quay máy phát điện, biết rằng $50\\%$ thế năng của nước làm nước nóng lên. Cho biết nhiệt dung riêng của nước là $4190\\text{ J/kg}\\cdot\\text{K}$. Lấy $g = 10\\text{ m/s}^2$. Độ biến thiên nhiệt độ của nước là bao nhiêu $\\text{K}$? (làm tròn kết quả đến chữ số hàng phần mười)",
+      ans: 0.1,
+      displayAns: "0,1",
+      explain: "Ta có $50\\%$ thế năng chuyển thành nhiệt năng làm nóng nước:<br>$$mc\\Delta T = 0,5mgh \\Rightarrow \\Delta T = \\frac{0,5gh}{c} = \\frac{0,5 \\times 10 \\times 96}{4190} \\approx 0,115\\text{ K} \\approx 0,1\\text{ K}$$"
+    },
+    {
+      id: 6,
+      q: "Sự biến thiên nhiệt độ của khối nước đá đựng trong ca nhôm theo nhiệt lượng cung cấp được cho trên đồ thị. Cho nhiệt dung riêng của nước và nhôm lần lượt là $c_1 = 4200\\text{ J/kg}\\cdot\\text{K};\\ c_2 = 880\\text{ J/kg}\\cdot\\text{K}$, nhiệt nóng chảy riêng của nước đá là $\\lambda = 3,4\\cdot 10^5\\text{ J/kg}$. Khối lượng của ca nhôm bằng bao nhiêu $\\text{g}$ (làm tròn kết quả đến chữ số hàng đơn vị)?",
+      figure: FIGURES.p3_q6,
+      ans: 455,
+      displayAns: "455",
+      explain: "• Từ $Q = 0$ đến $Q_1 = 170\\text{ kJ} = 170000\\text{ J}$, nước đá nóng chảy hoàn toàn ở $0^\\circ\\text{C}$:<br>$$m_1 = \\frac{Q_1}{\\lambda} = \\frac{170000}{3,4\\cdot 10^5} = 0,5\\text{ kg}$$• Từ $Q_1 = 170\\text{ kJ}$ đến $Q_2 = 175\\text{ kJ}$ ($\\Delta Q = 5000\\text{ J}$), cả nước ($m_1 = 0,5\\text{ kg}$) và ca nhôm ($m_2$) tăng từ $0^\\circ\\text{C}$ lên $2^\\circ\\text{C}$ ($\\Delta t = 2^\\circ\\text{C}$):<br>$$\\Delta Q = (m_1 c_1 + m_2 c_2)\\Delta t \\Rightarrow 5000 = (0,5\\times 4200 + m_2\\times 880)\\times 2$$$$\\Rightarrow 2100 + 880m_2 = 2500 \\Rightarrow m_2 = \\frac{400}{880}\\text{ kg} \\approx 0,4545\\text{ kg} \\approx 455\\text{ g}$$"
+    }
+  ];
+
+  // =========================================================================
+  // TRẠNG THÁI HỆ THỐNG
+  // =========================================================================
+  const TOTAL_SECONDS = EXAM_CONFIG.durationMinutes * 60;
+  let remainingSeconds = TOTAL_SECONDS;
+  let timerInterval = null;
+  let isSubmitted = false;
+  let studentName = "";
+  let studentClass = "";
+
+  const userState = {
+    p1: Array(PART1_QUESTIONS.length).fill(null),
+    p2: Array.from({ length: PART2_QUESTIONS.length }, () => ({ a: null, b: null, c: null, d: null })),
+    p3: Array(PART3_QUESTIONS.length).fill("")
+  };
+
+  function applyExamConfigToUI() {
+    const totalQ = PART1_QUESTIONS.length + PART2_QUESTIONS.length + PART3_QUESTIONS.length;
+    document.title = `${EXAM_CONFIG.examTitle} (${EXAM_CONFIG.durationMinutes} PHÚT)`;
+    document.getElementById('startBadge').textContent = EXAM_CONFIG.badge;
+    document.getElementById('startExamTitle').textContent = EXAM_CONFIG.examTitle;
+    document.getElementById('metaDuration').textContent = `${EXAM_CONFIG.durationMinutes} phút`;
+    document.getElementById('metaTotalQ').textContent = `${totalQ} câu`;
+    document.getElementById('btnStartExam').innerHTML = `🚀 BẮT ĐẦU LÀM BÀI (${EXAM_CONFIG.durationMinutes} PHÚT)`;
+
+    document.getElementById('headerExamTitle').textContent = EXAM_CONFIG.headerShortTitle;
+    document.getElementById('omrExamCode').textContent = EXAM_CONFIG.examCode;
+    document.getElementById('omrSubject').textContent = EXAM_CONFIG.subject;
+    document.getElementById('omrDuration').textContent = `${EXAM_CONFIG.durationMinutes} phút`;
+    document.getElementById('quickKeyHeaderTitle').textContent =
+      `📋 BẢNG ĐÁP ÁN CHUẨN ĐỀ SỐ 3 - MÃ ĐỀ ${EXAM_CONFIG.examCode} (Bấm vào ô bất kỳ để nhảy tới lời giải chi tiết câu đó)`;
+    document.getElementById('filter-all').textContent = `Tất cả câu hỏi (${totalQ})`;
+
+    updateTimerUI();
+  }
+
+  // =========================================================================
+  // XỬ LÝ VIDEO GIẢI CHI TIẾT SAU KHI NỘP BÀI (CHỐNG LỖI 153 YOUTUBE)
+  // =========================================================================
+  function getYouTubeVideoId(url) {
+    if (!url) return null;
+    try {
+      const regExp = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|shorts|live)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
+      const match = url.match(regExp);
+      return (match && match[1]) ? match[1] : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function buildYouTubeEmbedSrc(videoId, mode) {
+    if (mode === 'proxy') {
+      const ytEmbed = encodeURIComponent(`https://www.youtube.com/embed/${videoId}?rel=0&playsinline=1`);
+      const ytWatch = encodeURIComponent(`https://www.youtube.com/watch?v=${videoId}`);
+      const ytThumb = encodeURIComponent(`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`);
+      return `https://cdn.embedly.com/widgets/media.html?src=${ytEmbed}&url=${ytWatch}&image=${ytThumb}&type=text%2Fhtml&schema=youtube`;
+    }
+    const originParam = (window.location.origin && window.location.origin !== 'null' && window.location.protocol.startsWith('http'))
+      ? `&origin=${encodeURIComponent(window.location.origin)}`
+      : '';
+    return `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&playsinline=1${originParam}`;
+  }
+
+  function renderVideoSolutionSection() {
+    const box = document.getElementById('videoSolutionSection');
+    const cfg = EXAM_CONFIG.videoSolution;
+    if (!cfg || !cfg.enabled) {
+      box.style.display = 'none';
+      return;
+    }
+
+    const cleanUrl = (cfg.url || "").trim();
+    const hasUrl = cleanUrl !== "" && cleanUrl !== "#";
+    const videoId = hasUrl ? getYouTubeVideoId(cleanUrl) : null;
+
+    const extraHTML = (cfg.extraVideos && cfg.extraVideos.length > 0)
+      ? `<div class="extra-video-links">
+          ${cfg.extraVideos.map(item => `
+            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="extra-video-pill">
+              ${item.label} ↗
+            </a>
+          `).join('')}
+        </div>`
+      : '';
+
+    box.style.display = 'block';
+    box.innerHTML = `
+      <div class="video-header-row">
+        <div class="video-badge-title">
+          <div class="video-icon-pulse">🎬</div>
+          <div class="video-info-text">
+            <h4>${cfg.title || 'VIDEO CHỮA ĐỀ CHI TIẾT'}</h4>
+            <p>${hasUrl ? (cfg.note || 'Xem video giải chi tiết toàn bộ đề thi tại đây.') : 'Link video giải chi tiết sẽ được cập nhật.'}</p>
+          </div>
+        </div>
+        <div class="video-action-btns">
+          ${hasUrl ? `
+            <a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="btn-watch-video">
+              ${cfg.buttonText || '▶️ Mở Xem Video Giải Chi Tiết'} ↗
+            </a>
+          ` : ''}
+          ${videoId ? `
+            <button type="button" class="btn-toggle-embed" id="btnToggleEmbed" onclick="toggleVideoEmbed('${videoId}')">
+              📺 Xem trực tiếp tại trang
+            </button>
+          ` : ''}
+        </div>
+      </div>
+      ${extraHTML}
+      <div class="video-embed-wrapper" id="videoEmbedWrapper">
+        <div class="video-mode-bar">
+          <span>💡 <b>Mẹo:</b> Nếu trình phát báo lỗi trên thiết bị của bạn, hãy bấm đổi nguồn phát bên cạnh:</span>
+          <div class="video-mode-btns">
+            <button type="button" class="mode-pill" id="modeBtn-proxy" onclick="switchVideoMode('${videoId}', 'proxy')">
+              🛡️ Nguồn phát 1 (Chống lỗi 153 / Mở file trực tiếp)
+            </button>
+            <button type="button" class="mode-pill" id="modeBtn-direct" onclick="switchVideoMode('${videoId}', 'direct')">
+              🌐 Nguồn phát 2 (YouTube Trực tiếp)
+            </button>
+          </div>
+        </div>
+        <div class="video-embed-container" id="videoEmbedBox"></div>
+      </div>
+    `;
+  }
+
+  function switchVideoMode(videoId, mode) {
+    const embedBox = document.getElementById('videoEmbedBox');
+    if (!embedBox || !videoId) return;
+
+    const btnProxy = document.getElementById('modeBtn-proxy');
+    const btnDirect = document.getElementById('modeBtn-direct');
+    if (btnProxy) btnProxy.classList.toggle('active', mode === 'proxy');
+    if (btnDirect) btnDirect.classList.toggle('active', mode === 'direct');
+
+    const src = buildYouTubeEmbedSrc(videoId, mode);
+    embedBox.innerHTML = `
+      <iframe
+        src="${src}"
+        title="Video giải chi tiết"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+        allowfullscreen>
+      </iframe>
+    `;
+  }
+
+  function toggleVideoEmbed(videoId) {
+    const wrapper = document.getElementById('videoEmbedWrapper');
+    const embedBox = document.getElementById('videoEmbedBox');
+    const btn = document.getElementById('btnToggleEmbed');
+    if (!wrapper || !embedBox) return;
+
+    const isVisible = wrapper.style.display === 'block';
+    if (isVisible) {
+      wrapper.style.display = 'none';
+      embedBox.innerHTML = '';
+      if (btn) btn.innerHTML = '📺 Xem trực tiếp tại trang';
+    } else {
+      wrapper.style.display = 'block';
+      if (btn) btn.innerHTML = '🔼 Thu gọn video';
+      switchVideoMode(videoId, 'proxy');
+    }
+  }
+
+  // =========================================================================
+  // XỬ LÝ BẮT BUỘC NHẬP HỌ VÀ TÊN MỚI ĐƯỢC VÀO LÀM BÀI
+  // =========================================================================
+  function handleStartExam(e) {
+    e.preventDefault();
+    const nameInput = document.getElementById('studentNameInput');
+    const classInput = document.getElementById('studentClassInput');
+    const errEl = document.getElementById('nameErrorMsg');
+    const val = nameInput.value.trim();
+
+    if (!val) {
+      nameInput.classList.add('input-error');
+      errEl.style.display = 'block';
+      nameInput.focus();
+      return;
+    }
+
+    studentName = val;
+    studentClass = classInput.value.trim();
+    nameInput.classList.remove('input-error');
+    errEl.style.display = 'none';
+
+    document.getElementById('headerStudentName').textContent = studentName;
+    document.getElementById('headerStudentClass').textContent = studentClass ? `(${studentClass})` : "";
+    document.getElementById('omrStudentName').textContent = studentName;
+
+    document.getElementById('startOverlay').style.display = 'none';
+    startTimer();
+  }
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    updateTimerUI();
+    timerInterval = setInterval(() => {
+      if (isSubmitted) return;
+      remainingSeconds--;
+      updateTimerUI();
+      if (remainingSeconds <= 0) {
+        clearInterval(timerInterval);
+        submitExam(true);
+      }
+    }, 1000);
+  }
+
+  function updateTimerUI() {
+    const m = String(Math.floor(remainingSeconds / 60)).padStart(2, '0');
+    const s = String(remainingSeconds % 60).padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+    document.getElementById('timerBox').classList.toggle('urgent', remainingSeconds <= 300);
+  }
+
+  // =========================================================================
+  // KHỞI TẠO GIAO DIỆN ĐỀ THI & PHIẾU OMR
+  // =========================================================================
+  function renderAll() {
+    applyExamConfigToUI();
+    const letters = ['A', 'B', 'C', 'D'];
+    const tag = EXAM_CONFIG.questionTag || "";
+
+    // PHẦN I
+    document.getElementById('part1List').innerHTML = PART1_QUESTIONS.map((item, idx) => `
+      <div class="q-card" id="card-p1-${idx}">
+        <div class="q-head">
+          <span class="q-num">Câu ${item.id} ${tag}</span>
+          <span class="q-status" id="status-p1-${idx}">0,25 điểm</span>
+        </div>
+        <div class="q-content">${item.q}</div>
+        ${item.figure || ''}
+        <div class="p1-options">
+          ${item.options.map((opt, oIdx) => `
+            <div class="p1-opt" id="p1-opt-${idx}-${oIdx}" onclick="selectP1(${idx}, ${oIdx})">
+              <span class="opt-circle">${letters[oIdx]}</span>
+              <span>${opt}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="sol-box" id="sol-p1-${idx}">
+          <div class="sol-title">
+            <span>✅ Đáp án đúng: Phương án ${letters[item.ans]}</span>
+            <span id="user-ans-p1-${idx}"></span>
+          </div>
+          <div><b>Lời giải chi tiết:</b> ${item.explain}</div>
+          ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" class="q-video-link">🎬 Xem video chữa câu ${item.id} ↗</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    // PHẦN II
+    document.getElementById('part2List').innerHTML = PART2_QUESTIONS.map((item, idx) => `
+      <div class="q-card" id="card-p2-${idx}">
+        <div class="q-head">
+          <span class="q-num">Câu ${item.id} - Phần II ${tag}</span>
+          <span class="q-status" id="status-p2-${idx}">Tối đa 1,0 điểm</span>
+        </div>
+        <div class="q-content">${item.q}</div>
+        ${item.figure || ''}
+        <div class="p2-list">
+          ${item.items.map(sub => `
+            <div class="p2-item" id="p2-item-${idx}-${sub.label}">
+              <div class="p2-text"><b>${sub.label})</b> ${sub.text}</div>
+              <div class="p2-btns">
+                <button type="button" class="tf-btn" id="p2-btn-${idx}-${sub.label}-T" onclick="selectP2(${idx}, '${sub.label}', true)">Đúng</button>
+                <button type="button" class="tf-btn" id="p2-btn-${idx}-${sub.label}-F" onclick="selectP2(${idx}, '${sub.label}', false)">Sai</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="sol-box" id="sol-p2-${idx}">
+          <div class="sol-title">
+            <span>✅ Đáp án chuẩn Câu ${item.id} Phần II: ${item.items.map(s => `${s.label}) ${s.ans ? 'Đúng' : 'Sai'}`).join(' • ')}</span>
+          </div>
+          <div>${item.explain}</div>
+          ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" class="q-video-link">🎬 Xem video chữa Câu ${item.id} Phần II ↗</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    // PHẦN III
+    document.getElementById('part3List').innerHTML = PART3_QUESTIONS.map((item, idx) => `
+      <div class="q-card" id="card-p3-${idx}">
+        <div class="q-head">
+          <span class="q-num">Câu ${item.id} - Phần III ${tag}</span>
+          <span class="q-status" id="status-p3-${idx}">0,25 điểm</span>
+        </div>
+        <div class="q-content">${item.q}</div>
+        ${item.figure || ''}
+        <div class="p3-input-wrap">
+          <label for="p3-inp-${idx}"><b>Đáp số của bạn:</b></label>
+          <input
+            type="text"
+            inputmode="decimal"
+            maxlength="5"
+            class="p3-input"
+            id="p3-inp-${idx}"
+            placeholder="Nhập số..."
+            oninput="inputP3(${idx}, this.value)"
+          />
+        </div>
+        <div class="sol-box" id="sol-p3-${idx}">
+          <div class="sol-title">
+            <span>✅ Đáp số đúng: ${item.displayAns}</span>
+            <span id="user-ans-p3-${idx}"></span>
+          </div>
+          <div><b>Lời giải chi tiết:</b><br>${item.explain}</div>
+          ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" class="q-video-link">🎬 Xem video chữa Câu ${item.id} Phần III ↗</a>` : ''}
+        </div>
+      </div>
+    `).join('');
+
+    // OMR SHEET
+    const col1 = [], col2 = [];
+    const halfP1 = Math.ceil(PART1_QUESTIONS.length / 2);
+    for (let i = 0; i < PART1_QUESTIONS.length; i++) {
+      const r = `
+        <div class="omr-row">
+          <span class="omr-qnum" onclick="jumpToCard('card-p1-${i}')">${i + 1}</span>
+          <div class="omr-bubbles">
+            ${letters.map((L, oIdx) => `
+              <span class="bubble" id="omr-p1-${i}-${oIdx}" onclick="selectP1(${i}, ${oIdx})">${L}</span>
+            `).join('')}
+          </div>
+        </div>
+      `;
+      if (i < halfP1) col1.push(r);
+      else col2.push(r);
+    }
+    document.getElementById('omrP1').innerHTML = `<div>${col1.join('')}</div><div>${col2.join('')}</div>`;
+
+    document.getElementById('omrP2').innerHTML = PART2_QUESTIONS.map((q, idx) => `
+      <div class="omr-p2-card">
+        <div style="font-weight:700; font-size:0.76rem; margin-bottom:3px; cursor:pointer; color:var(--primary);" onclick="jumpToCard('card-p2-${idx}')">Câu ${q.id} (Đ / S)</div>
+        ${['a', 'b', 'c', 'd'].map(sub => `
+          <div class="omr-row">
+            <span><b>${sub})</b></span>
+            <div class="omr-bubbles">
+              <span class="bubble" id="omr-p2-${idx}-${sub}-T" onclick="selectP2(${idx}, '${sub}', true)">Đ</span>
+              <span class="bubble" id="omr-p2-${idx}-${sub}-F" onclick="selectP2(${idx}, '${sub}', false)">S</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('');
+
+    document.getElementById('omrP3').innerHTML = PART3_QUESTIONS.map((q, idx) => `
+      <div class="omr-p3-card" onclick="jumpToCard('card-p3-${idx}')" style="cursor:pointer;">
+        <b>Câu ${q.id}</b>
+        <div class="omr-p3-boxes" id="omr-p3-boxes-${idx}">
+          <div class="omr-p3-char"></div>
+          <div class="omr-p3-char"></div>
+          <div class="omr-p3-char"></div>
+          <div class="omr-p3-char"></div>
+        </div>
+      </div>
+    `).join('');
+
+    updateProgressCounter();
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise();
+    }
+  }
+
+  // =========================================================================
+  // ĐỒNG BỘ LỰA CHỌN GIỮA ĐỀ THI VÀ PHIẾU TRẢ LỜI
+  // =========================================================================
+  function selectP1(qIdx, optIdx) {
+    if (isSubmitted) return;
+    userState.p1[qIdx] = optIdx;
+    for (let i = 0; i < 4; i++) {
+      document.getElementById(`p1-opt-${qIdx}-${i}`).classList.toggle('selected', i === optIdx);
+      document.getElementById(`omr-p1-${qIdx}-${i}`).classList.toggle('filled', i === optIdx);
+    }
+    updateProgressCounter();
+  }
+
+  function selectP2(qIdx, subKey, val) {
+    if (isSubmitted) return;
+    userState.p2[qIdx][subKey] = val;
+    document.getElementById(`p2-btn-${qIdx}-${subKey}-T`).classList.toggle('active-true', val === true);
+    document.getElementById(`p2-btn-${qIdx}-${subKey}-F`).classList.toggle('active-false', val === false);
+    document.getElementById(`omr-p2-${qIdx}-${subKey}-T`).classList.toggle('filled', val === true);
+    document.getElementById(`omr-p2-${qIdx}-${subKey}-F`).classList.toggle('filled', val === false);
+    updateProgressCounter();
+  }
+
+  function inputP3(qIdx, val) {
+    if (isSubmitted) return;
+    const clean = val.trim().slice(0, 4);
+    userState.p3[qIdx] = clean;
+    const chars = clean.split('');
+    document.getElementById(`omr-p3-boxes-${qIdx}`).innerHTML = [0, 1, 2, 3].map(i => `
+      <div class="omr-p3-char">${chars[i] || ''}</div>
+    `).join('');
+    updateProgressCounter();
+  }
+
+  function updateProgressCounter() {
+    const totalQ = PART1_QUESTIONS.length + PART2_QUESTIONS.length + PART3_QUESTIONS.length;
+    const c1 = userState.p1.filter(v => v !== null).length;
+    const c2 = userState.p2.filter(obj => obj.a !== null || obj.b !== null || obj.c !== null || obj.d !== null).length;
+    const c3 = userState.p3.filter(v => v.trim() !== "").length;
+    const done = c1 + c2 + c3;
+    document.getElementById('mobileProgressText').textContent = `${done}/${totalQ}`;
+  }
+
+  function toggleOMRDrawer(open) {
+    document.getElementById('omrPanel').classList.toggle('open', open);
+    document.getElementById('drawerBackdrop').classList.toggle('open', open);
+  }
+
+  function jumpToCard(cardId) {
+    toggleOMRDrawer(false);
+    const el = document.getElementById(cardId);
+    if (el) {
+      el.style.display = 'block';
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // =========================================================================
+  // CHẤM ĐIỂM, HIỂN THỊ VIDEO GIẢI & BẢNG ĐÁP ÁN CHI TIẾT SAU KHI NỘP BÀI
+  // =========================================================================
+  function submitExam(autoByTimer = false) {
+    if (isSubmitted) return;
+    isSubmitted = true;
+    clearInterval(timerInterval);
+    toggleOMRDrawer(false);
+
+    const letters = ['A', 'B', 'C', 'D'];
+
+    // 1. Chấm Phần I
+    let p1Correct = 0;
+    const quickP1HTML = [];
+
+    PART1_QUESTIONS.forEach((item, idx) => {
+      const u = userState.p1[idx];
+      const ok = u === item.ans;
+      if (ok) p1Correct++;
+
+      const card = document.getElementById(`card-p1-${idx}`);
+      const status = document.getElementById(`status-p1-${idx}`);
+      card.dataset.result = ok ? 'correct' : 'wrong';
+      card.classList.add(ok ? 'card-correct' : 'card-wrong');
+
+      status.textContent = ok ? "Đúng (+0,25đ)" : (u === null ? "Chưa làm (0đ)" : "Sai (0đ)");
+      status.style.background = ok ? "#dcfce7" : "#fee2e2";
+      status.style.color = ok ? "#15803d" : "#b91c1c";
+
+      document.getElementById(`user-ans-p1-${idx}`).textContent =
+        u === null ? "Bạn chưa chọn" : `Bạn chọn: ${letters[u]}`;
+
+      for (let o = 0; o < 4; o++) {
+        const optEl = document.getElementById(`p1-opt-${idx}-${o}`);
+        const omrEl = document.getElementById(`omr-p1-${idx}-${o}`);
+        if (o === item.ans) {
+          optEl.classList.add('ans-correct');
+          if (u === item.ans) omrEl.classList.add('omr-correct');
+          else omrEl.classList.add('omr-missed');
+        } else if (o === u) {
+          optEl.classList.add('ans-wrong');
+          omrEl.classList.add('omr-wrong');
+        }
+      }
+
+      document.getElementById(`sol-p1-${idx}`).style.display = 'block';
+      quickP1HTML.push(`
+        <div class="key-cell ${ok ? 'k-ok' : 'k-err'}" onclick="jumpToCard('card-p1-${idx}')">
+          <b>C${item.id}: ${letters[item.ans]}</b>
+        </div>
+      `);
+    });
+
+    const p1Score = p1Correct * 0.25;
+
+    // 2. Chấm Phần II
+    let p2Score = 0;
+    let p2SubCorrectTotal = 0;
+    const ruleP2 = { 0: 0, 1: 0.1, 2: 0.25, 3: 0.5, 4: 1.0 };
+    const quickP2P3HTML = [];
+
+    PART2_QUESTIONS.forEach((item, idx) => {
+      let subCorrect = 0;
+      item.items.forEach(sub => {
+        const u = userState.p2[idx][sub.label];
+        const rowEl = document.getElementById(`p2-item-${idx}-${sub.label}`);
+        const btnT = document.getElementById(`p2-btn-${idx}-${sub.label}-T`);
+        const btnF = document.getElementById(`p2-btn-${idx}-${sub.label}-F`);
+        const omrT = document.getElementById(`omr-p2-${idx}-${sub.label}-T`);
+        const omrF = document.getElementById(`omr-p2-${idx}-${sub.label}-F`);
+
+        if (sub.ans === true) btnT.classList.add('correct-choice');
+        else btnF.classList.add('correct-choice');
+
+        if (u === sub.ans) {
+          subCorrect++;
+          p2SubCorrectTotal++;
+          rowEl.classList.add('sub-correct');
+          if (u === true) omrT.classList.add('omr-correct');
+          else omrF.classList.add('omr-correct');
+        } else {
+          rowEl.classList.add('sub-wrong');
+          if (u === true) omrT.classList.add('omr-wrong');
+          if (u === false) omrF.classList.add('omr-wrong');
+          if (sub.ans === true) omrT.classList.add('omr-missed');
+          else omrF.classList.add('omr-missed');
+        }
+      });
+
+      const qPts = ruleP2[subCorrect];
+      p2Score += qPts;
+      const card = document.getElementById(`card-p2-${idx}`);
+      const status = document.getElementById(`status-p2-${idx}`);
+      card.dataset.result = subCorrect === 4 ? 'correct' : 'wrong';
+      card.classList.add(subCorrect === 4 ? 'card-correct' : 'card-wrong');
+      status.textContent = `Đúng ${subCorrect}/4 ý (+${qPts.toFixed(2).replace('.', ',')}đ)`;
+      status.style.background = subCorrect === 4 ? "#dcfce7" : "#fef3c7";
+      status.style.color = subCorrect === 4 ? "#15803d" : "#b45309";
+
+      document.getElementById(`sol-p2-${idx}`).style.display = 'block';
+      quickP2P3HTML.push(`
+        <div class="key-cell ${subCorrect === 4 ? 'k-ok' : 'k-err'}" style="text-align:left; padding:8px;" onclick="jumpToCard('card-p2-${idx}')">
+          <b>Phần II - Câu ${item.id}:</b> ${item.items.map(s => `${s.label}-${s.ans ? 'Đ' : 'S'}`).join(', ')}
+        </div>
+      `);
+    });
+
+    // 3. Chấm Phần III
+    let p3Correct = 0;
+    PART3_QUESTIONS.forEach((item, idx) => {
+      const raw = userState.p3[idx].trim().replace(',', '.');
+      const num = raw === "" ? NaN : parseFloat(raw);
+      const ok = !isNaN(num) && Math.abs(num - item.ans) < 1e-4;
+      if (ok) p3Correct++;
+
+      const card = document.getElementById(`card-p3-${idx}`);
+      const status = document.getElementById(`status-p3-${idx}`);
+      const inp = document.getElementById(`p3-inp-${idx}`);
+      inp.disabled = true;
+
+      card.dataset.result = ok ? 'correct' : 'wrong';
+      card.classList.add(ok ? 'card-correct' : 'card-wrong');
+      status.textContent = ok ? "Đúng (+0,25đ)" : `Sai (Đ/A: ${item.displayAns})`;
+      status.style.background = ok ? "#dcfce7" : "#fee2e2";
+      status.style.color = ok ? "#15803d" : "#b91c1c";
+
+      document.getElementById(`user-ans-p3-${idx}`).textContent =
+        raw === "" ? "Bạn chưa điền" : `Bạn điền: ${userState.p3[idx]}`;
+
+      document.getElementById(`sol-p3-${idx}`).style.display = 'block';
+      quickP2P3HTML.push(`
+        <div class="key-cell ${ok ? 'k-ok' : 'k-err'}" style="text-align:left; padding:8px;" onclick="jumpToCard('card-p3-${idx}')">
+          <b>Phần III - Câu ${item.id}:</b> ${item.displayAns}
+        </div>
+      `);
+    });
+
+    const p3Score = p3Correct * 0.25;
+    const totalScore = p1Score + p2Score + p3Score;
+
+    const used = TOTAL_SECONDS - remainingSeconds;
+    const um = String(Math.floor(used / 60)).padStart(2, '0');
+    const us = String(used % 60).padStart(2, '0');
+
+    document.getElementById('resTotal').textContent = `${totalScore.toFixed(2).replace('.', ',')} / 10`;
+    document.getElementById('resTime').textContent = `Thời gian làm: ${um}:${us}`;
+    document.getElementById('resP1').textContent = `${p1Score.toFixed(2).replace('.', ',')} / 4,50`;
+    document.getElementById('resCountP1').textContent = `${p1Correct}/${PART1_QUESTIONS.length} câu đúng`;
+    document.getElementById('resP2').textContent = `${p2Score.toFixed(2).replace('.', ',')} / 4,00`;
+    document.getElementById('resCountP2').textContent = `${p2SubCorrectTotal}/${PART2_QUESTIONS.length * 4} ý đúng`;
+    document.getElementById('resP3').textContent = `${p3Score.toFixed(2).replace('.', ',')} / 1,50`;
+    document.getElementById('resCountP3').textContent = `${p3Correct}/${PART3_QUESTIONS.length} câu đúng`;
+
+    document.getElementById('resultStudentInfo').innerHTML =
+      `Thí sinh: <b>${studentName}</b> ${studentClass ? `(${studentClass})` : ''} • Mã đề: <b>${EXAM_CONFIG.examCode}</b> • ${autoByTimer ? '⏰ Hết giờ tự động nộp bài' : '✅ Đã nộp bài thành công'}`;
+
+    renderVideoSolutionSection();
+
+    document.getElementById('quickKeyP1').innerHTML = quickP1HTML.join('');
+    document.getElementById('quickKeyP2P3').innerHTML = quickP2P3HTML.join('');
+
+    document.getElementById('resultHub').style.display = 'block';
+    document.getElementById('topSubmitBtn').style.display = 'none';
+    document.getElementById('mobileSubmitBtn').textContent = '📖 Xem đáp án';
+    document.getElementById('mobileSubmitBtn').onclick = scrollToFirstSolution;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetPromise();
+    }
+  }
+
+  function scrollToFirstSolution() {
+    const firstCard = document.getElementById('card-p1-0');
+    if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function filterQuestions(mode) {
+    ['all', 'wrong', 'correct'].forEach(k => {
+      document.getElementById(`filter-${k}`).classList.toggle('active', k === mode);
+    });
+    document.querySelectorAll('.q-card').forEach(card => {
+      if (mode === 'all') {
+        card.style.display = 'block';
+      } else {
+        card.style.display = card.dataset.result === mode ? 'block' : 'none';
+      }
+    });
+  }
+
+  function resetExam() {
+    isSubmitted = false;
+    remainingSeconds = TOTAL_SECONDS;
+    userState.p1.fill(null);
+    userState.p2 = Array.from({ length: PART2_QUESTIONS.length }, () => ({ a: null, b: null, c: null, d: null }));
+    userState.p3.fill("");
+
+    document.getElementById('resultHub').style.display = 'none';
+    document.getElementById('videoSolutionSection').innerHTML = '';
+    document.getElementById('topSubmitBtn').style.display = 'inline-flex';
+    document.getElementById('mobileSubmitBtn').textContent = '✅ Nộp bài';
+    document.getElementById('mobileSubmitBtn').onclick = () => submitExam();
+
+    renderAll();
+    startTimer();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  window.addEventListener('DOMContentLoaded', renderAll);
+</script>
+</body>
+</html>
